@@ -5,7 +5,7 @@ from subset_sum import *
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("Użycie: python main.py <plik_z_liczbami> <algorytm> <szukana_suma> [opcje]")
-        print("Dostępne algorytmy: random, brute_force, hill_climbing_classic, hill_climbing_random, subset_sum_tabu, genetic_algorithm")
+        print("Dostępne algorytmy: brute_force, hill_climbing_classic, hill_climbing_random, subset_sum_tabu, genetic_algorithm")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     target_sum = int(sys.argv[3])
 
     tabu_size = 10
-    population_size = 10
+    population_size = 1000
     mutation_rate = 0.01
     max_iterations = 1000
 
@@ -79,9 +79,7 @@ if __name__ == "__main__":
     with open(input_file, 'r') as file:
         numbers = [int(line.strip()) for line in file]
 
-    if algorithm == "random":
-        solution = generate_random_solution(numbers)
-    elif algorithm == "brute_force":
+    if algorithm == "brute_force":
         solution = brute_force(numbers, target_sum)
     elif algorithm == "hill_climbing_classic":
         solution = hill_climbing_classic(numbers, target_sum, max_iterations)
@@ -97,7 +95,7 @@ if __name__ == "__main__":
 
     if solution:
         print("Znalezione rozwiązanie:", solution)
-        if type(solution) == list:
+        if type(solution) == tuple:
             print("Suma rozwiązania", sum(solution[0]))
     else:
         print("Nie znaleziono rozwiązania dla szukanej sumy", target_sum)

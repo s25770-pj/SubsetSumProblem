@@ -58,6 +58,9 @@ def hill_climbing_classic(S, T, max_iterations):
     for iteration in range(max_iterations):
         print(f'Iteration: {iteration + 1}')
 
+        if current_value == 0:
+            return swap_bool_with_numbers(S, current_solution), current_value
+
         neighbors = generate_neighborhood(S, current_solution)
         best_neighbor = None
         best_neighbor_value = float('inf')
@@ -71,7 +74,6 @@ def hill_climbing_classic(S, T, max_iterations):
         if best_neighbor is not None and best_neighbor_value < current_value:
             current_solution = best_neighbor
             current_value = best_neighbor_value
-            print(f'New best value: {current_value}')
         else:
             break
 
@@ -180,8 +182,8 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
     population = [generate_random_solution(S) for _ in range(pop_size)]
     fitness = [1 / (1 + objective_function(S, T, sol)) for sol in population]
     
-    for generation in range(max_iterations):
-        print(f'Generation: {generation + 1}')
+    for iteration in range(max_iterations):
+        print(f'Generation: {iteration + 1}')
         
         parents = select_parents(population, fitness, pop_size)
         
@@ -195,7 +197,7 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
             elif crossover_method == 'two_point':
                 child1, child2 = crossover_two_point(parent1, parent2)
             else:
-                raise ValueError("Invalid crossover method specified.")
+                raise ValueError
             
             if mutation_method == 'flip_bit':
                 child1 = mutation_flip_bit(child1)
@@ -204,7 +206,7 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
                 child1 = mutation_swap_bits(child1)
                 child2 = mutation_swap_bits(child2)
             else:
-                raise ValueError("Invalid mutation method specified.")
+                raise ValueError
             
             next_population.extend([child1, child2])
         
