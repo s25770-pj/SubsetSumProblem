@@ -214,7 +214,7 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
         fitness = [1 / (1 + objective_function(S, T, sol)) for sol in population]
     
         if termination_condition == 'fixed_generations':
-            if generation + 1 >= max_iterations:
+            if iteration + 1 >= max_iterations:
                 break
         elif termination_condition == 'optimal_solution':
             if 0 in [objective_function(S, T, sol) for sol in population]:
