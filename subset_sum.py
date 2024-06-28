@@ -41,12 +41,12 @@ def brute_force(S, T):
         for subset in itertools.combinations(S, subset_size):
             subset_sum = sum(subset)
             if subset_sum == T:
-                return subset
+                return subset, 0
             elif abs(T - subset_sum) < best_subset_sum:
                 best_subset = list(subset)
                 best_subset_sum = abs(T - subset_sum)
     
-    return best_subset
+    return best_subset, best_subset_sum
 
 #########################################################################################################
 # Algorytmy wspinaczkowy klasyczny
@@ -54,12 +54,12 @@ def brute_force(S, T):
 def hill_climbing_classic(S, T, max_iterations):
     current_solution = generate_random_solution(S)
     current_value = objective_function(S, T, current_solution)
-    
+    history = [current_value]
+
     for iteration in range(max_iterations):
-        print(f'Iteration: {iteration + 1}')
 
         if current_value == 0:
-            return swap_bool_with_numbers(S, current_solution), current_value
+            return swap_bool_with_numbers(S, current_solution), current_value, history
 
         neighbors = generate_neighborhood(S, current_solution)
         best_neighbor = None
@@ -76,29 +76,32 @@ def hill_climbing_classic(S, T, max_iterations):
             current_value = best_neighbor_value
         else:
             break
+        history.append(current_value)
 
-    return swap_bool_with_numbers(S, current_solution), current_value
+    return swap_bool_with_numbers(S, current_solution), current_value, history
 
 #########################################################################################################
 # Algorytmy wspinaczkowy losowy
 #########################################################################################################
 def hill_climbing_random(S, T, max_iterations):
+
     current_solution = generate_random_solution(S)
     current_value = objective_function(S, T, current_solution)
-    
+    history = [current_value]
+
     for iteration in range(max_iterations):
-        print(f'Iteration: {iteration + 1}')
 
         if current_value == 0:
-            return swap_bool_with_numbers(S, current_solution), current_value
+            return swap_bool_with_numbers(S, current_solution), current_value, history
 
         neighbor = generate_random_neighbor(S, current_solution)
         neighbor_value = objective_function(S, T, neighbor)
         if neighbor_value < current_value:
             current_solution = neighbor
             current_value = neighbor_value
+        history.append(current_value)
     
-    return swap_bool_with_numbers(S, current_solution), current_value
+    return swap_bool_with_numbers(S, current_solution), current_value, history
 
 #########################################################################################################
 # Algorytm tabu
@@ -111,11 +114,11 @@ def subset_sum_tabu(S, T, tabu_size, max_iterations):
 
     best_solution = current_solution[:]
     best_value = current_value
+    history = [current_value]
     
     tabu_list.append(current_solution)
 
     for iteration in range(max_iterations):
-        print(f'Iteration: {iteration+1}')
 
         neighbors = generate_neighborhood(S, current_solution)
         best_neighbor = None
@@ -143,10 +146,12 @@ def subset_sum_tabu(S, T, tabu_size, max_iterations):
                 current_solution = tabu_list[-1]
                 current_value = objective_function(S, T, current_solution)
 
+        history.append(current_value)
+
         if best_value == 0:
             break
 
-    return swap_bool_with_numbers(S, best_solution), best_value
+    return swap_bool_with_numbers(S, best_solution), best_value, history
 
 #########################################################################################################
 # Algorytm genetyczny

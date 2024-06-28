@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 import sys
 from subset_sum import *
+from tests import *
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("Użycie: python main.py <plik_z_liczbami> <algorytm> <szukana_suma> [opcje]")
-        print("Dostępne algorytmy: brute_force, hill_climbing_classic, hill_climbing_random, subset_sum_tabu, genetic_algorithm")
+        print("Dostępne algorytmy: brute_force, hill_climbing_classic, hill_climbing_random, subset_sum_tabu, genetic_algorithm, tests")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -89,13 +90,44 @@ if __name__ == "__main__":
         solution = subset_sum_tabu(numbers, target_sum, tabu_size, max_iterations)
     elif algorithm == "genetic_algorithm":
         solution = genetic_algorithm(numbers, target_sum, population_size, max_iterations, crossover_method, mutation_method, termination_method)
+    elif algorithm == "tests":
+        solution, times, histories, best_params, best_results, best_time, best_convergence = run_experiment(numbers, target_sum, max_iterations, tabu_size)
+        print(f"{plot_convergence}")
     else:
         print("Nieznany algorytm:", algorithm)
         sys.exit(1)
 
+
     if solution:
-        print("Znalezione rozwiązanie:", solution)
-        if type(solution) == tuple:
-            print("Suma rozwiązania", sum(solution[0]))
+        if algorithm == "tests":
+            with open("output_file", 'a') as file:
+                file.write("Najlepsze parametry:\n")
+                for method, params in best_params.items():
+                    if params is not None:
+                        file.write(f"{method}: {params}\n")
+                
+                file.write("\nNajlepsze rozwiązania:\n")
+                file.write("\nNajlepsze rozwiązania:\n")
+                for method, result in best_results.items():
+                    file.write(f"{method}: Solution = {result[0]}, Objective Value = {result[1]}\n")
+
+                file.write("\nNajlepsze czasy wykonania:\n")
+                for method, time in best_time.items():
+                    file.write(f"{method}: {time:.4f} seconds\n")
+
+                file.write("\nNajlepsza historia wykonania:\n")
+                for method, history in best_convergence.items():
+                    if history is not None and method != "Hill Climbing Random":
+                        file.write(f"Method: {method}\n")
+                        for i, value in enumerate(history):
+                            file.write(f"Iteration {i + 1}: {value}\n")
+                        file.write("\n")
+
+            plot_convergence(best_convergence)
+
+        else:
+            print("Znalezione rozwiązanie:", solution)
+            if type(solution) == tuple:
+                print("Suma rozwiązania", sum(solution[0]))
     else:
         print("Nie znaleziono rozwiązania dla szukanej sumy", target_sum)
