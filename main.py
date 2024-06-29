@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
                 file.write("\nCzasy wykonania:\n")
                 for method, time in best_time.items():
-                    file.write(f"{method}: {time:.4f} seconds\n")
+                    file.write(f"{method}: {time * 1000:.6f} ms\n")
 
                 file.write("\nHistoria wykonania:\n")
                 for method, history in best_convergence.items():

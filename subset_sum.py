@@ -70,13 +70,16 @@ def hill_climbing_classic(S, T, max_iterations):
             if neighbor_value < best_neighbor_value:
                 best_neighbor = neighbor
                 best_neighbor_value = neighbor_value
-
+        
         if best_neighbor is not None and best_neighbor_value < current_value:
             current_solution = best_neighbor
             current_value = best_neighbor_value
         else:
             break
+        
         history.append(current_value)
+        
+        print("history", history)
 
     return swap_bool_with_numbers(S, current_solution), current_value, history
 
@@ -187,9 +190,7 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
     population = [generate_random_solution(S) for _ in range(pop_size)]
     fitness = [1 / (1 + objective_function(S, T, sol)) for sol in population]
     
-    for iteration in range(max_iterations):
-        print(f'Generation: {iteration + 1}')
-        
+    for iteration in range(max_iterations):        
         parents = select_parents(population, fitness, pop_size)
         
         next_population = []
