@@ -74,7 +74,6 @@ def run_experiment(S, T, max_iterations, tabu_size):
     solution = True
 
     return solution, times, histories, best_params, best_results, best_time, best_convergence
-
 def plot_convergence(best_convergence):
     plt.figure(figsize=(10, 6))
     

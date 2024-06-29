@@ -97,31 +97,41 @@ if __name__ == "__main__":
         print("Nieznany algorytm:", algorithm)
         sys.exit(1)
 
+    top_method = None
+    top_time = float('inf')
+    top_result = []
 
     if solution:
         if algorithm == "tests":
+            best_solution_method = min(best_results, key=lambda k: best_results[k][1])
+            best_time_method = min(best_time, key=best_time.get)
+            fewest_iterations_method = min(best_convergence, key=lambda k: len(best_convergence[k]) if best_convergence[k] is not None else float('inf'))
+
             with open("output_file", 'a') as file:
-                file.write("Najlepsze parametry:\n")
+                file.write("Parametry:\n")
                 for method, params in best_params.items():
                     if params is not None:
                         file.write(f"{method}: {params}\n")
                 
-                file.write("\nNajlepsze rozwiązania:\n")
-                file.write("\nNajlepsze rozwiązania:\n")
+                file.write("\nRozwiązania:\n")
                 for method, result in best_results.items():
                     file.write(f"{method}: Solution = {result[0]}, Objective Value = {result[1]}\n")
 
-                file.write("\nNajlepsze czasy wykonania:\n")
+                file.write("\nCzasy wykonania:\n")
                 for method, time in best_time.items():
                     file.write(f"{method}: {time:.4f} seconds\n")
 
-                file.write("\nNajlepsza historia wykonania:\n")
+                file.write("\nHistoria wykonania:\n")
                 for method, history in best_convergence.items():
-                    if history is not None and method != "Hill Climbing Random":
+                    if history is not None:
                         file.write(f"Method: {method}\n")
                         for i, value in enumerate(history):
                             file.write(f"Iteration {i + 1}: {value}\n")
                         file.write("\n")
+
+                file.write(f"\nBest Solution Method: {best_solution_method}\n")
+                file.write(f"Best Time Method: {best_time_method}\n")
+                file.write(f"Fewest Iterations Method: {fewest_iterations_method}\n")
 
             plot_convergence(best_convergence)
 
