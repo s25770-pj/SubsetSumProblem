@@ -39,7 +39,7 @@ def run_experiment(S, T, max_iterations, tabu_size):
     exec_time_hc = end_time_hc - start_time_hc
     times['Hill Climbing Classic'] = exec_time_hc
     histories['Hill Climbing Classic'] = history
-    if value == 0 and exec_time_hc < best_time['Hill Climbing Classic']:
+    if exec_time_hc < best_time['Hill Climbing Classic']:
         best_time['Hill Climbing Classic'] = exec_time_hc
         best_params['Hill Climbing Classic'] = (max_iterations, tabu_size)
         best_results['Hill Climbing Classic'] = (solution, value)
@@ -52,7 +52,7 @@ def run_experiment(S, T, max_iterations, tabu_size):
     exec_time_hr = end_time_hr - start_time_hr
     times['Hill Climbing Random'] = exec_time_hr
     histories['Hill Climbing Random'] = history
-    if value == 0 and exec_time_hr < best_time['Hill Climbing Random']:
+    if exec_time_hr < best_time['Hill Climbing Random']:
         best_time['Hill Climbing Random'] = exec_time_hr
         best_params['Hill Climbing Random'] = (max_iterations, tabu_size)
         best_results['Hill Climbing Random'] = (solution, value)
@@ -65,7 +65,7 @@ def run_experiment(S, T, max_iterations, tabu_size):
     exec_time_ts = end_time_ts - start_time_ts
     times['Tabu Search'] = exec_time_ts
     histories['Tabu Search'] = history
-    if value == 0 and exec_time_ts < best_time['Tabu Search']:
+    if exec_time_ts < best_time['Tabu Search']:
         best_time['Tabu Search'] = exec_time_ts
         best_params['Tabu Search'] = (max_iterations, tabu_size)
         best_results['Tabu Search'] = (solution, value)

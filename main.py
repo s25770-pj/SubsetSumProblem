@@ -105,7 +105,7 @@ if __name__ == "__main__":
         if algorithm == "tests":
             best_solution_method = min(best_results, key=lambda k: best_results[k][1])
             best_time_method = min(best_time, key=best_time.get)
-            fewest_iterations_method = min(best_convergence, key=lambda k: len(best_convergence[k]) if best_convergence[k] is not None else float('inf'))
+            fewest_iterations_method = min(best_convergence, key=lambda k: len(best_convergence[k]))
 
             with open("output_file", 'a') as file:
                 file.write("Parametry:\n")
