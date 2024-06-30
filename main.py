@@ -28,28 +28,28 @@ if __name__ == "__main__":
             try:
                 population_size = int(sys.argv[i + 1])
                 i += 2
-            except (IndexError, ValueError):
+            except IndexError:
                 print("Nieprawidłowy argument dla -population")
                 sys.exit(1)
         elif sys.argv[i] == "-mutation_rate":
             try:
                 mutation_rate = float(sys.argv[i + 1])
                 i += 2
-            except (IndexError, ValueError):
+            except IndexError:
                 print("Nieprawidłowy argument dla -mutation_rate")
                 sys.exit(1)
         elif sys.argv[i] == "-iter":
             try:
                 max_iterations = int(sys.argv[i + 1])
                 i += 2
-            except (IndexError, ValueError):
+            except IndexError:
                 print("Nieprawidłowy argument dla -iter")
                 sys.exit(1)
         elif sys.argv[i] == "-tabu_size":
             try:
                 tabu_size = int(sys.argv[i + 1])
                 i += 2
-            except (IndexError, ValueError):
+            except IndexError:
                 print("Nieprawidłowy argument dla -tabu_size")
                 sys.exit(1)
         elif sys.argv[i] == "-crossover_method":
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         if algorithm == "tests":
             best_solution_method = min(best_results, key=lambda k: best_results[k][1])
             best_time_method = min(best_time, key=best_time.get)
-            fewest_iterations_method = min(best_convergence, key=lambda k: len(best_convergence[k]))
+            fewest_iterations_method = min(best_convergence, key=lambda k: len(best_convergence[k]) if best_convergence[k] is not None else float('inf'))
 
             with open("output_file", 'a') as file:
                 file.write("Parametry:\n")

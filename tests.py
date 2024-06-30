@@ -12,9 +12,9 @@ def run_experiment(S, T, max_iterations, tabu_size):
     times = {}
     histories = {}
     best_params = {
-        'Hill Climbing Classic': None,
-        'Hill Climbing Random': None,
-        'Tabu Search': None
+        'Hill Climbing Classic': (None, None),
+        'Hill Climbing Random': (None, None),
+        'Tabu Search': (None, None)
     }
     best_results = {
         'Hill Climbing Classic': (None, float('inf')),
@@ -58,7 +58,7 @@ def run_experiment(S, T, max_iterations, tabu_size):
         best_results['Hill Climbing Random'] = (solution, value)
         best_convergence['Hill Climbing Random'] = history
 
-    # Tabu Search
+    # Tabu
     start_time_ts = time.time()
     solution, value, history = subset_sum_tabu(S, T, tabu_size, max_iterations)
     end_time_ts = time.time()
@@ -74,6 +74,7 @@ def run_experiment(S, T, max_iterations, tabu_size):
     solution = True
 
     return solution, times, histories, best_params, best_results, best_time, best_convergence
+
 def plot_convergence(best_convergence):
     plt.figure(figsize=(10, 6))
     

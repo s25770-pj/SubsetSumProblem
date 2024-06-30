@@ -78,8 +78,6 @@ def hill_climbing_classic(S, T, max_iterations):
             break
         
         history.append(current_value)
-        
-        print("history", history)
 
     return swap_bool_with_numbers(S, current_solution), current_value, history
 
@@ -145,14 +143,13 @@ def subset_sum_tabu(S, T, tabu_size, max_iterations):
             tabu_list.append(current_solution[:])
         else:
             if len(tabu_list) > 1:
-                tabu_list.pop()
-                current_solution = tabu_list[-1]
+                current_solution = tabu_list[-2]
                 current_value = objective_function(S, T, current_solution)
 
         history.append(current_value)
 
         if best_value == 0:
-            break
+            return swap_bool_with_numbers(S, best_solution), best_value, history
 
     return swap_bool_with_numbers(S, best_solution), best_value, history
 
@@ -190,7 +187,7 @@ def genetic_algorithm(S, T, pop_size, max_iterations, crossover_method, mutation
     population = [generate_random_solution(S) for _ in range(pop_size)]
     fitness = [1 / (1 + objective_function(S, T, sol)) for sol in population]
     
-    for iteration in range(max_iterations):        
+    for iteration in range(max_iterations):
         parents = select_parents(population, fitness, pop_size)
         
         next_population = []
